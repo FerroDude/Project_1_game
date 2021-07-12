@@ -5,16 +5,17 @@ class Player {
     this.y = y;
     this.speedY = 0;
     this.speedX = 0;
-    this.maxSpeed = 3;
+    this.maxSpeed = 5;
     this.accelerationX = 0;
     this.accelerationY = 0;
+    this.GRAVITY = 0.6;
     this.width = 30;
     this.height = 50;
   }
 
   runLogic() {
-    const friction = 0.1;
-    const GRAVITY = 0.3;
+    const friction = 0.3;
+
 
     this.speedX += this.accelerationX;
 
@@ -29,20 +30,32 @@ class Player {
     } else if (this.speedX < -this.maxSpeed) {
       this.speedX = -this.maxSpeed;
     }
-    this.speedY += GRAVITY;
+    this.speedY += this.GRAVITY;
+    this.y += this.speedY * this.GRAVITY;
 
     this.x += this.speedX;
-    this.y += this.speedY * GRAVITY;
 
-    //this.speedY += this.accelerationY; there is no up or down movement, except jump
 
-    /*     if (this.speedX > 0) {
-      this.speedX -= friction;
-    } else if (this.speedX < 0) {
-      this.speedX += friction;
+  //collision with walls
+    if (this.y + this.height > canvas.height) {
+       
+        this.speedY = 0;
+        this.y = canvas.height - this.height
+       }
+    if (this.x < 0) {
+        this.speedX = 0;
+        this.x = 0
     }
-    this.x += this.speedX;
-   */
+    if (this.x > canvas.width - this.width) {
+        this.speedX = 0;
+        this.x = canvas.width - this.width;
+    }
+    if (this.y < 0) {
+        this.speedY = 0;
+        this.y = 0;
+    }
+
+  
   }
 
   paint() {
