@@ -5,17 +5,16 @@ class Player {
     this.y = y;
     this.speedY = 0;
     this.speedX = 0;
-    this.maxSpeed = 5;
+    this.maxSpeed = 6;
     this.accelerationX = 0;
     this.accelerationY = 0;
-    this.GRAVITY = 0.6;
+    this.GRAVITY = 1.1;
     this.width = 30;
     this.height = 50;
   }
 
   runLogic() {
     const friction = 0.3;
-
 
     this.speedX += this.accelerationX;
 
@@ -31,31 +30,27 @@ class Player {
       this.speedX = -this.maxSpeed;
     }
     this.speedY += this.GRAVITY;
-    this.y += this.speedY * this.GRAVITY;
+    this.y += this.speedY;
 
     this.x += this.speedX;
 
-
-  //collision with walls
+    //collision with walls
     if (this.y + this.height > canvas.height) {
-       
-        this.speedY = 0;
-        this.y = canvas.height - this.height
-       }
+      this.speedY = 0;
+      this.y = canvas.height - this.height;
+    }
     if (this.x < 0) {
-        this.speedX = 0;
-        this.x = 0
+      this.speedX = 0;
+      this.x = 0;
     }
     if (this.x > canvas.width - this.width) {
-        this.speedX = 0;
-        this.x = canvas.width - this.width;
+      this.speedX = 0;
+      this.x = canvas.width - this.width;
     }
     if (this.y < 0) {
-        this.speedY = 0;
-        this.y = 0;
+      this.speedY = 0;
+      this.y = 0;
     }
-
-  
   }
 
   paint() {
