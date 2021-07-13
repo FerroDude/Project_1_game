@@ -26,12 +26,11 @@ class Game {
           break;
         case 'ArrowUp':
           if (this.player.speedY === 0) {
-            this.player.speedY = -15;
+            this.player.speedY = -20;
           }
           break;
         case 'Space':
-          this.fireProjectile();
-          console.log('fired');
+          this.firePortal();
           break;
       }
     });
@@ -46,8 +45,8 @@ class Game {
       }
     });
   }
-  fireProjectile() {
-    const projectile = new Portal(this, 200, 200);
+  firePortal() {
+    const projectile = new Portal(this, this.player.x, this.player.y);
     this.projectiles.push(projectile);
   }
   runLogic() {
@@ -72,5 +71,8 @@ class Game {
   paint() {
     this.clearScreen();
     this.player.paint();
+    for (const projectile of this.projectiles) {
+      projectile.paint();
+    }
   }
 }

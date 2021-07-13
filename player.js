@@ -17,22 +17,23 @@ class Player {
     const friction = 0.3;
 
     this.speedX += this.accelerationX;
-
+    //add friction to movement
     if (this.speedX > 0) {
       this.speedX -= friction;
     } else if (this.speedX < 0) {
       this.speedX += friction;
     }
 
+    //Limit max speed
     if (this.speedX > this.maxSpeed) {
       this.speedX = this.maxSpeed;
     } else if (this.speedX < -this.maxSpeed) {
       this.speedX = -this.maxSpeed;
     }
+    this.x += this.speedX;
+    //add gravity
     this.speedY += this.GRAVITY;
     this.y += this.speedY;
-
-    this.x += this.speedX;
 
     //collision with walls
     if (this.y + this.height > canvas.height) {
