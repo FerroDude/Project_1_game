@@ -5,12 +5,12 @@ class Portal {
     this.y = y;
     this.directionX = 0;
     this.directionY = 0;
-    this.width = 20;
-    this.height = 20;
+    this.width = 10;
+    this.height = 10;
     this.color = 'green';
     this.angle = angle;
-    this.dx = Math.cos(angle) * 10;
-    this.dy = Math.sin(angle) * 10;
+    this.dx = Math.cos(angle) * 20;
+    this.dy = Math.sin(angle) * 20;
   }
 
   runLogic() {

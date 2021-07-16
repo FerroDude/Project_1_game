@@ -17,8 +17,8 @@ class Gun {
 
   rotateGun() {
     let angle = Math.atan2(
-      this.game.mousePos.y - this.y,
-      this.game.mousePos.x - this.x
+      this.game.mousePos.y - this.y - 25,
+      this.game.mousePos.x - this.x - 25
     );
     this.game.context.translate(this.player.x + 23, this.player.y + 30);
     this.game.context.rotate(angle);

@@ -9,11 +9,16 @@ class Game {
     );
     this.gun = new Gun(this, this.player.x, this.player.y, this.player);
     this.mousePos = {};
+    new Block(this, 600, 50, 100, 50);
   }
   start() {
     this.portals = [];
     this.loop();
     this.enableControls();
+  }
+
+  createPlatforms() {
+    new Block(this, 600, 50, 100, 50);
   }
 
   enableControls() {
@@ -45,15 +50,14 @@ class Game {
     });
     window.addEventListener('click', (event) => {
       this.firePortal();
-      console.log('click');
     });
   }
 
   firePortal() {
     const portal = new Portal(
       this,
-      this.player.x,
-      this.player.y,
+      this.player.x + 2,
+      this.player.y + 2,
       this.gun.angle
     );
     this.portals.push(portal);
@@ -92,10 +96,10 @@ class Game {
   paint() {
     this.clearScreen();
     this.player.paint();
-    this.gun.paint();
-    this.context.restore();
     for (const portal of this.portals) {
       portal.paint();
     }
+    this.gun.paint();
+    this.context.restore();
   }
 }
