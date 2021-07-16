@@ -7,9 +7,11 @@ class Game {
       this.canvas.width / 2,
       this.canvas.height / 2
     );
+    this.gun = new Gun(this, this.player.x, this.player.y, this.player);
+    this.mousePos = {};
   }
   start() {
-    this.projectiles = [];
+    this.portals = [];
     this.loop();
     this.enableControls();
   }
@@ -19,10 +21,10 @@ class Game {
       const key = event.code;
       switch (key) {
         case 'ArrowRight':
-          this.player.accelerationX += 1;
+          this.player.accelerationX += 1.3;
           break;
         case 'ArrowLeft':
-          this.player.accelerationX -= 1;
+          this.player.accelerationX -= 1.3;
           break;
         case 'ArrowUp':
           if (this.player.speedY === 0) {
@@ -45,14 +47,32 @@ class Game {
       }
     });
   }
+
   firePortal() {
-    const projectile = new Portal(this, this.player.x, this.player.y);
-    this.projectiles.push(projectile);
+    const portal = new Portal(
+      this,
+      this.player.x,
+      this.player.y,
+      this.gun.angle
+    );
+    this.portals.push(portal);
   }
+
+  getMousePosition() {
+    canvas.addEventListener('mousemove', (event) => {
+      this.mousePos = {
+        x: event.clientX - canvas.offsetLeft,
+        y: event.clientY - canvas.offsetTop
+      };
+    });
+  }
+
   runLogic() {
     this.player.runLogic();
-    for (const projectile of this.projectiles) {
-      projectile.runLogic();
+    this.getMousePosition();
+    this.gun.runLogic();
+    for (const portal of this.portals) {
+      portal.runLogic();
     }
   }
 
@@ -71,8 +91,10 @@ class Game {
   paint() {
     this.clearScreen();
     this.player.paint();
-    for (const projectile of this.projectiles) {
-      projectile.paint();
+    this.gun.paint();
+    this.context.restore();
+    for (const portal of this.portals) {
+      portal.paint();
     }
   }
 }

@@ -5,16 +5,16 @@ class Player {
     this.y = y;
     this.speedY = 0;
     this.speedX = 0;
-    this.maxSpeed = 6;
+    this.maxSpeed = 8;
     this.accelerationX = 0;
     this.accelerationY = 0;
-    this.GRAVITY = 1.1;
-    this.width = 30;
-    this.height = 50;
+    this.GRAVITY = 1.3;
+    this.width = 40;
+    this.height = 60;
   }
 
   runLogic() {
-    const friction = 0.3;
+    const friction = 0.2;
 
     this.speedX += this.accelerationX;
     //add friction to movement
@@ -36,6 +36,7 @@ class Player {
     this.y += this.speedY;
 
     //collision with walls
+
     if (this.y + this.height > canvas.height) {
       this.speedY = 0;
       this.y = canvas.height - this.height;
