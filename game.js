@@ -20,31 +20,32 @@ class Game {
     window.addEventListener('keydown', (event) => {
       const key = event.code;
       switch (key) {
-        case 'ArrowRight':
+        case 'KeyD':
           this.player.accelerationX += 1.3;
           break;
-        case 'ArrowLeft':
+        case 'KeyA':
           this.player.accelerationX -= 1.3;
           break;
-        case 'ArrowUp':
+        case 'KeyW':
           if (this.player.speedY === 0) {
             this.player.speedY = -20;
           }
-          break;
-        case 'Space':
-          this.firePortal();
           break;
       }
     });
     window.addEventListener('keyup', (event) => {
       const key = event.code;
       switch (key) {
-        case 'ArrowRight':
-        case 'ArrowLeft':
+        case 'KeyD':
+        case 'KeyA':
           this.player.accelerationX = 0;
           this.player.speedX = 0;
           break;
       }
+    });
+    window.addEventListener('click', (event) => {
+      this.firePortal();
+      console.log('click');
     });
   }
 

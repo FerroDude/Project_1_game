@@ -4,10 +4,10 @@ class Gun {
     this.player = player;
     this.x = x;
     this.y = y;
-    this.width = 50;
+    this.width = 30;
     this.height = 15;
     this.color = 'red';
-    this.angle = 100;
+    this.angle = null;
   }
 
   runLogic() {
@@ -23,6 +23,7 @@ class Gun {
     this.game.context.translate(this.player.x + 23, this.player.y + 30);
     this.game.context.rotate(angle);
     this.game.context.translate(-this.player.x - 15, -this.player.y - 30);
+    this.angle = angle;
   }
 
   paint() {
