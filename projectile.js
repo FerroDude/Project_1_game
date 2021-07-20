@@ -1,4 +1,4 @@
-class Portal {
+class Projectile {
   constructor(game, x, y, angle) {
     this.game = game;
     this.x = x;
@@ -9,8 +9,8 @@ class Portal {
     this.height = 10;
     this.color = 'green';
     this.angle = angle;
-    this.dx = Math.cos(angle) * 20;
-    this.dy = Math.sin(angle) * 20;
+    this.dx = Math.cos(angle) * 5;
+    this.dy = Math.sin(angle) * 5;
   }
 
   runLogic() {
@@ -22,7 +22,7 @@ class Portal {
     const context = this.game.context;
     context.save();
     context.fillStyle = this.color;
-    context.fillRect(this.x + 15, this.y + 20, this.width, this.height);
+    context.fillRect(this.x, this.y, this.width, this.height);
     context.restore();
   }
 }
