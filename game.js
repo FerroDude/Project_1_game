@@ -13,15 +13,28 @@ class Game {
   start() {
     this.projectiles = [];
     this.obstacles = [];
+    this.portals = [];
     this.createPlatforms();
     this.loop();
     this.enableControls();
   }
 
   createPlatforms() {
-    this.obstacles.push(new Wall(this, 100, 100, 800));
-    this.obstacles.push(new Floor(this, 100, 900, 200));
-    this.obstacles.push(new Wall(this, 800, 400, 500));
+    //borders
+    this.obstacles.push(new Floor(this, 0, 0, canvas.width));
+    this.obstacles.push(
+      new Floor(this, 0, canvas.height - canvas.width / 30, canvas.width)
+    );
+    this.obstacles.push(new Wall(this, 0, 0, canvas.height));
+    this.obstacles.push(
+      new Wall(this, canvas.width - canvas.width / 30, 0, canvas.height)
+    );
+
+    this.obstacles.push(new Floor(this, 250, 1250, 300));
+    this.obstacles.push(new Floor(this, 950, 1250, 300));
+    this.obstacles.push(new Floor(this, 600, 110, 300));
+    this.obstacles.push(new Floor(this, 250, 950, 300));
+    this.obstacles.push(new Floor(this, 950, 950, 300));
   }
   enableControls() {
     window.addEventListener('keydown', (event) => {
@@ -55,19 +68,6 @@ class Game {
     });
   }
 
-  /*   checkIntersection(elementOne, elementTwo) {
-    return (
-      elementOne.x + elementOne.width / 2 >=
-        elementTwo.x - elementTwo.width / 2 &&
-      elementOne.x - elementOne.width / 2 <=
-        elementTwo.x + elementTwo.width / 2 &&
-      elementOne.y + elementOne.height / 2 >=
-        elementTwo.y - elementTwo.height / 2 &&
-      elementOne.y - elementOne.height / 2 <=
-        elementTwo.y + elementTwo.height / 2
-    );
-  } */
-
   checkIntersection(elementOne, elementTwo) {
     if (elementOne.x >= elementTwo.x + elementTwo.width) {
       return false;
@@ -83,21 +83,18 @@ class Game {
   }
 
   detectCollisions() {
+    const projectileCoordinates = { x: 0, y: 0 };
     this.projectiles.forEach((projectile, index) => {
       this.obstacles.forEach((obstacle) => {
         if (this.checkIntersection(projectile, obstacle)) {
+          projectileCoordinates.x = projectile.x;
+          projectileCoordinates.y = projectile.y;
+          console.log(projectileCoordinates.x, projectileCoordinates.y);
           this.projectiles.splice(index, 1);
+          this.portals.push(new Portal(this, projectile.x, projectile.y));
         }
       });
     });
-
-    /*
-    this.obstacles.forEach((obstacle) => {
-      if (this.checkIntersection(obstacle, this.player)) {
-        this.player.speedY = 0;
-      }
-    });
-    */
   }
   // Iterate over each projectile
   // Iterate over each wall
@@ -133,8 +130,6 @@ class Game {
     for (const projectile of this.projectiles) {
       projectile.runLogic();
     }
-
-    console.log(this.player.speedY);
   }
 
   loop() {
@@ -152,6 +147,9 @@ class Game {
   paint() {
     this.clearScreen();
     this.player.paint();
+    for (const portal of this.portals) {
+      portal.paint();
+    }
     for (const obstacle of this.obstacles) {
       obstacle.paint();
     }
@@ -159,6 +157,7 @@ class Game {
       projectile.paint();
     }
     this.gun.paint();
+
     this.context.restore();
   }
 }

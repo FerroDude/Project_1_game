@@ -9,8 +9,8 @@ class Projectile {
     this.height = 10;
     this.color = 'green';
     this.angle = angle;
-    this.dx = Math.cos(angle) * 5;
-    this.dy = Math.sin(angle) * 5;
+    this.dx = Math.cos(angle) * 10;
+    this.dy = Math.sin(angle) * 10;
   }
 
   runLogic() {

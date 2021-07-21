@@ -3,7 +3,7 @@ class Wall {
     this.game = game;
     this.x = x;
     this.y = y;
-    this.width = canvas.width / 20;
+    this.width = canvas.width / 30;
     this.height = height;
     this.color = 'black';
     this.x2 = this.x + this.width;

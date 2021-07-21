@@ -37,14 +37,14 @@ class Player {
 
     // this.speedX = Math.max(Math.min(this.speedX, this.maxSpeed), -this.maxSpeed);
 
-    this.x += this.speedX;
+    //this.x += this.speedX;
     //add gravity
 
     this.speedY += GRAVITY;
 
     const newY = this.y + this.speedY;
 
-    let playerIsGoingToIntersectWithObstacle = false;
+    let playerIsGoingToIntersectWithFloor = false;
 
     this.game.obstacles.forEach((obstacle) => {
       if (
@@ -55,13 +55,33 @@ class Player {
           height: this.height
         })
       ) {
-        playerIsGoingToIntersectWithObstacle = true;
+        playerIsGoingToIntersectWithFloor = true;
       }
     });
-    if (playerIsGoingToIntersectWithObstacle) {
+    if (playerIsGoingToIntersectWithFloor) {
       this.speedY = 0;
     } else {
       this.y = newY;
+    }
+
+    let playerIsGoingToIntersectWithWall = false;
+    const newX = this.x + this.speedX;
+    this.game.obstacles.forEach((obstacle) => {
+      if (
+        this.game.checkIntersection(obstacle, {
+          x: newX,
+          y: this.y,
+          width: this.width,
+          height: this.height
+        })
+      ) {
+        playerIsGoingToIntersectWithWall = true;
+      }
+    });
+    if (playerIsGoingToIntersectWithWall) {
+      this.speedX = 0;
+    } else {
+      this.x = newX;
     }
     /*
     const playerIsGoingToIntersectWithObstacle = this.game.obstacles.some(obstacle => {

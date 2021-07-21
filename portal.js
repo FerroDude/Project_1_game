@@ -1,13 +1,11 @@
-class Floor {
-  constructor(game, x, y, width) {
+class Portal {
+  constructor(game, x, y) {
     this.game = game;
     this.x = x;
     this.y = y;
-    this.width = width;
-    this.height = canvas.height / 30;
-    this.color = 'black';
-    this.x2 = this.x + this.width;
-    this.y2 = this.x + this.height;
+    this.width = 5;
+    this.height = 100;
+    this.color = 'red';
   }
 
   paint() {
