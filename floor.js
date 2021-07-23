@@ -6,8 +6,7 @@ class Floor {
     this.width = width;
     this.height = canvas.height / 30;
     this.color = 'black';
-    this.x2 = this.x + this.width;
-    this.y2 = this.x + this.height;
+    this.type = 'floor';
   }
 
   paint() {

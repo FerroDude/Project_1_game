@@ -6,8 +6,7 @@ class Wall {
     this.width = canvas.width / 30;
     this.height = height;
     this.color = 'black';
-    this.x2 = this.x + this.width;
-    this.y2 = this.x + this.height;
+    this.type = 'wall';
   }
 
   paint() {

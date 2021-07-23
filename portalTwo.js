@@ -1,11 +1,12 @@
-class Portal {
-  constructor(game, x, y, hitWall) {
+class PortalTwo {
+  constructor(game, x, y, direction, hitWall) {
     this.game = game;
     this.x = x;
     this.y = y;
     this.width = 10;
     this.height = 80;
-    this.color = 'green';
+    this.color = 'red';
+    this.direction = direction;
     this.hitWall = hitWall;
   }
 

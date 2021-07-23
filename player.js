@@ -18,14 +18,7 @@ class Player {
     const GRAVITY = 0.3;
 
     this.speedX += this.accelerationX;
-    //add friction to movement
-    /*
-    if (this.speedX > 0) {
-      this.speedX -= friction;
-    } else if (this.speedX < 0) {
-      this.speedX += friction;
-    }
-    */
+
     this.speedX = this.speedX / (1 + friction);
 
     //Limit max speed
@@ -37,11 +30,10 @@ class Player {
 
     // this.speedX = Math.max(Math.min(this.speedX, this.maxSpeed), -this.maxSpeed);
 
-    //this.x += this.speedX;
     //add gravity
-
     this.speedY += GRAVITY;
 
+    //platform collisions
     const newY = this.y + this.speedY;
 
     let playerIsGoingToIntersectWithFloor = false;
@@ -99,6 +91,27 @@ class Player {
     const oneValueIsString = values.some((value) => typeof value === 'string');
     const allValuesAreString = values.every((value) => typeof value === 'string');
     */
+
+    this.game.portalOne.forEach((portalOne) => {
+      this.game.portalTwo.forEach((portalTwo) => {
+        if (this.game.checkIntersection(this, portalOne)) {
+          if (portalTwo.direction === 'left') {
+            this.x = portalTwo.x - this.width;
+            this.y = portalTwo.y;
+          } else if (portalTwo.direction === 'right') {
+            this.x = portalTwo.x + this.width;
+            this.y = portalTwo.y;
+          } else if (portalTwo.direction === 'up') {
+            this.x = portalTwo.x;
+            this.y = portalTwo.y - 60;
+          } else if (portalTwo.direction === 'down') {
+            this.x = portalTwo.x;
+            this.y = portalTwo.y + 30;
+          }
+          this.game.closePortals();
+        }
+      });
+    });
 
     //collision with walls
 
