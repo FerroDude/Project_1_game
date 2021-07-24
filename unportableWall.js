@@ -1,13 +1,12 @@
-class Floor {
-  constructor(game, x, y, width) {
+class UnportableWall {
+  constructor(game, x, y, height) {
     this.game = game;
     this.x = x;
     this.y = y;
-    this.width = width;
-    this.height = canvas.height / 30;
-    this.color = 'black';
-    this.type = 'floor';
-    this.portable = true;
+    this.width = canvas.width / 30;
+    this.height = height;
+    this.color = 'grey';
+    this.portable = false;
   }
 
   paint() {

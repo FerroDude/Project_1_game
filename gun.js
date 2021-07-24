@@ -5,7 +5,7 @@ class Gun {
     this.x = x;
     this.y = y;
     this.width = 30;
-    this.height = 15;
+    this.height = 10;
     this.color = 'red';
     this.angle = null;
   }
@@ -31,6 +31,6 @@ class Gun {
     context.save();
     this.rotateGun();
     context.fillStyle = this.color;
-    context.fillRect(this.x + 15, this.y + 20, this.width, this.height);
+    context.fillRect(this.x + 15, this.y + 25, this.width, this.height);
   }
 }

@@ -8,9 +8,9 @@ class Player {
     this.maxSpeed = 4;
     this.accelerationX = 0;
     this.accelerationY = 0;
-    //this.GRAVITY = 0.3;
     this.width = 40;
     this.height = 60;
+    this.alive = true;
   }
 
   runLogic() {
@@ -22,13 +22,16 @@ class Player {
     this.speedX = this.speedX / (1 + friction);
 
     //Limit max speed
-    if (this.speedX > this.maxSpeed) {
+    /* if (this.speedX > this.maxSpeed) {
       this.speedX = this.maxSpeed;
     } else if (this.speedX < -this.maxSpeed) {
       this.speedX = -this.maxSpeed;
-    }
+    } */
 
-    // this.speedX = Math.max(Math.min(this.speedX, this.maxSpeed), -this.maxSpeed);
+    this.speedX = Math.max(
+      Math.min(this.speedX, this.maxSpeed),
+      -this.maxSpeed
+    );
 
     //add gravity
     this.speedY += GRAVITY;
@@ -75,16 +78,28 @@ class Player {
     } else {
       this.x = newX;
     }
-    /*
-    const playerIsGoingToIntersectWithObstacle = this.game.obstacles.some(obstacle => {
-      return this.game.checkIntersection(obstacle, {
-        x: this.x,
-        y: newY,
-        width: this.width,
-        height: this.height
-      });
-    })
-    */
+    //dangers collison
+    this.game.dangers.forEach((danger) => {
+      if (this.game.checkIntersection(danger, this)) {
+        window.location.reload();
+      }
+    });
+
+    if (
+      this.x > canvas.width ||
+      this.x < 0 ||
+      this.y > canvas.height ||
+      this.y < 0
+    ) {
+      window.location.reload();
+    }
+
+    //exit door collision
+    this.game.exitDoor.forEach((exit) => {
+      if (this.game.checkIntersection(exit, this)) {
+        window.location.reload();
+      }
+    });
 
     /*
     const values = [ 1, 'a', null ];
@@ -112,31 +127,6 @@ class Player {
         }
       });
     });
-
-    //collision with walls
-
-    if (this.y + this.height > canvas.height) {
-      this.speedY = 0;
-      this.y = canvas.height - this.height;
-    }
-    if (this.x < 0) {
-      this.speedX = 0;
-      this.x = 0;
-    }
-    if (this.x > canvas.width - this.width) {
-      this.speedX = 0;
-      this.x = canvas.width - this.width;
-    }
-    if (this.y < 0) {
-      this.speedY = 0;
-      this.y = 0;
-    }
-
-    // Iterate over each portal in this.game.portals
-    // If player coordinates collide with portal coordinates,
-    // get the other portal in the array of portals
-    // if said portal exists,
-    // get portal coordinates and set those to player's coordinates
   }
 
   paint() {

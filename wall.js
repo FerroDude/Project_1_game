@@ -7,6 +7,7 @@ class Wall {
     this.height = height;
     this.color = 'black';
     this.type = 'wall';
+    this.portable = true;
   }
 
   paint() {

@@ -2,36 +2,58 @@ class Game {
   constructor(canvas) {
     this.canvas = canvas;
     this.context = canvas.getContext('2d');
-    this.player = new Player(
-      this,
-      this.canvas.width / 2,
-      this.canvas.height / 2
-    );
+    this.player = new Player(this, 900, 900);
     this.gun = new Gun(this, this.player.x, this.player.y, this.player);
     this.mousePos = {};
   }
   start() {
+    this.exitDoor = [];
     this.projectiles = [];
     this.projectilesTwo = [];
     this.obstacles = [];
     this.portalOne = [];
     this.portalTwo = [];
+    this.dangers = [];
+    this.unportableObstacles = [];
+    this.createExit();
     this.createPlatforms();
+    this.createDangers();
     this.loop();
     this.enableControls();
+  }
+
+  createDangers() {
+    this.dangers.push(new VerticalLaser(this, 100, 100, 500));
+  }
+
+  createExit() {
+    this.exitDoor.push(new Exit(this, 880, 110));
   }
 
   createPlatforms() {
     //borders
     this.obstacles.push(new Floor(this, 0, 0, canvas.width));
     this.obstacles.push(
-      new Floor(this, 0, canvas.height - canvas.width / 30, canvas.width)
+      new Floor(this, 220, canvas.height - canvas.width / 30, canvas.width)
     );
     this.obstacles.push(new Wall(this, 0, 0, canvas.height));
     this.obstacles.push(
       new Wall(this, canvas.width - canvas.width / 30, 0, canvas.height)
     );
     //platforms
+    this.obstacles.push(new Floor(this, 220, 800, canvas.width));
+    this.obstacles.push(new Floor(this, 180, 660, 700));
+    this.obstacles.push(new Wall(this, 800, 800, 80));
+    this.obstacles.push(new Wall(this, 180, 250, 430));
+    this.obstacles.push(new Wall(this, 800, 920, 80));
+    this.obstacles.push(new Wall(this, 220, 920, 80));
+    this.obstacles.push(new Wall(this, 800, 140, 90));
+    this.obstacles.push(new Wall(this, 800, 10, 90));
+    this.obstacles.push(new Floor(this, 800, 200, 900));
+    this.obstacles.push(new Floor(this, 500, 550, 100));
+    this.obstacles.push(new Floor(this, 400, 450, 100));
+    this.obstacles.push(new Floor(this, 300, 350, 100));
+    this.obstacles.push(new Floor(this, 200, 250, 100));
   }
   enableControls() {
     window.addEventListener('keydown', (event) => {
@@ -50,6 +72,9 @@ class Game {
           break;
         case 'KeyE':
           this.fireProjectileTwo();
+          break;
+        case 'KeyQ':
+          window.location.reload();
           break;
       }
     });
@@ -175,12 +200,6 @@ class Game {
       });
     });
   }
-  // Iterate over each projectile
-  // Iterate over each wall
-  // Detect if projectile and wall are colliding
-  // if so, get projectile coordinates
-  // remove projectile from projectiles array
-  // create new Portal() with projectile coordinates
 
   closePortals() {
     this.portalOne = [];
@@ -228,13 +247,23 @@ class Game {
     this.detectCollisions();
     this.player.runLogic();
     this.getMousePosition();
+    for (const danger of this.dangers) {
+      danger.runLogic();
+    }
     this.portalsReset();
     this.gun.runLogic();
+    this.restartGame();
     for (const projectile of this.projectiles) {
       projectile.runLogic();
     }
     for (const projectileTwo of this.projectilesTwo) {
       projectileTwo.runLogic();
+    }
+  }
+
+  restartGame() {
+    if ((this.player.alive = false)) {
+      window.location.reload();
     }
   }
 
@@ -253,6 +282,9 @@ class Game {
   paint() {
     this.clearScreen();
     this.player.paint();
+    for (const danger of this.dangers) {
+      danger.paint();
+    }
     for (const portalOne of this.portalOne) {
       portalOne.paint();
     }
@@ -262,12 +294,19 @@ class Game {
     for (const obstacle of this.obstacles) {
       obstacle.paint();
     }
+    for (const unportableObstacle of this.unportableObstacles) {
+      unportableObstacle.paint();
+    }
     for (const projectile of this.projectiles) {
       projectile.paint();
     }
     for (const projectileTwo of this.projectilesTwo) {
       projectileTwo.paint();
     }
+    for (const exit of this.exitDoor) {
+      exit.paint();
+    }
+
     this.gun.paint();
     this.context.restore();
   }

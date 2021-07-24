@@ -3,8 +3,8 @@ class Portal {
     this.game = game;
     this.x = x;
     this.y = y;
-    this.width = 10;
-    this.height = 80;
+    this.width = 0;
+    this.height = 0;
     this.color = 'green';
     this.hitWall = hitWall;
   }
@@ -14,10 +14,14 @@ class Portal {
     context.save();
     context.fillStyle = this.color;
     if (this.hitWall) {
+      this.width = 10;
+      this.height = 80;
       context.fillRect(this.x, this.y, this.width, this.height);
     }
     if (this.hitWall === false) {
-      context.fillRect(this.x, this.y, this.width + 70, this.height - 70);
+      this.width = 80;
+      this.height = 10;
+      context.fillRect(this.x, this.y, this.width, this.height);
     }
     context.restore();
   }
