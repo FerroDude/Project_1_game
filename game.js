@@ -71,10 +71,10 @@ class Game {
           }
           break;
         case 'KeyE':
-          this.fireProjectileTwo();
+          this.fireProjectile();
           break;
         case 'KeyQ':
-          window.location.reload();
+          this.fireProjectileTwo();
           break;
       }
     });
@@ -88,9 +88,9 @@ class Game {
           break;
       }
     });
-    window.addEventListener('click', (event) => {
+    /*  window.addEventListener('click', (event) => {
       this.fireProjectile();
-    });
+    }); */
   }
 
   checkIntersection(elementOne, elementTwo) {
